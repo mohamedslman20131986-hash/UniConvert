@@ -1,0 +1,5 @@
+[
+  {"name":"دولار أمريكي","short":"USD","rate":1300,"img":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."},
+  {"name":"يورو","short":"EUR","rate":1210,"img":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."},
+  {"name":"ريال سعودي","short":"SAR","rate":348,"img":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."}
+]
