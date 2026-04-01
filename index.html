@@ -1,57 +1,55 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<title>المحول الذكي + أخبار البورصة</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدخال أرقام فقط</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input, button {
+            font-size: 18px;
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            max-width: 300px;
+        }
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+    <h2>إدخال أرقام فقط</h2>
+    <label for="numberInput">أدخل الرقم:</label><br>
+    <input type="number" id="numberInput" placeholder="أدخل الرقم هنا"><br>
+    <button onclick="calculate()">احسب ×2</button>
+    <p id="result"></p>
 
-<button onclick="toggleTheme()" class="theme-btn">🌙 / ☀️</button>
-
-<header>
-  <h1>🔄 المحول الذكي</h1>
-  <nav>
-    <a href="#converter">المحول</a> |
-    <a href="#news">أخبار البورصة</a>
-  </nav>
-</header>
-
-<section id="converter">
-  <div class="category">
-    <button onclick="setCategory('currency',this)">💵 عملات</button>
-    <button onclick="setCategory('temp',this)">🌡️ حرارة</button>
-    <button onclick="setCategory('length',this)">📏 طول</button>
-    <button onclick="setCategory('weight',this)">⚖️ وزن</button>
-    <button onclick="setCategory('time',this)">⏰ وقت</button>
-    <button onclick="setCategory('data',this)">💾 بيانات</button>
-    <button onclick="setCategory('area',this)">🗺️ مساحة</button>
-  </div>
-
-  <input type="number" id="value" placeholder="اكتب الرقم">
-  <br>
-  <select id="from"></select>
-  <select id="to"></select>
-  <br>
-  <button class="convert" onclick="convert()">تحويل</button>
-  <div id="result"></div>
-</section>
-
-<section id="news" class="news-widget">
-  <h2>📊 أسعار الدولار وأخبار البورصة</h2>
-  <div class="currency" id="currency-section"></div>
-  <div class="news" id="news-section"></div>
-  <p class="update" id="last-update"></p>
-</section>
-
-<script src="converter.js"></script>
-<script src="news.js"></script>
-
-<script>
-function toggleTheme(){
-  document.body.classList.toggle("light");
-}
-</script>
-
+    <script>
+        function calculate() {
+            const input = document.getElementById('numberInput').value;
+            const num = parseFloat(input);
+            if (!isNaN(num)) {
+                const result = num * 2; // مثال: نضرب الرقم في 2
+                document.getElementById('result').innerText = `النتيجة: ${result}`;
+            } else {
+                document.getElementById('result').innerText = "الرجاء إدخال رقم صحيح!";
+            }
+        }
+    </script>
 </body>
 </html>
