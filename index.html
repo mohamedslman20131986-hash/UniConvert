@@ -2,188 +2,54 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المحوّل الذكي الكامل الأصلي</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #f0f4f7, #d9e2ec);
-    text-align: center;
-    padding: 20px;
-    margin: 0;
-}
-h1 {
-    color: #1a1a1a;
-    margin-bottom: 20px;
-    font-size: 28px;
-}
-#display {
-    width: 100%;
-    max-width: 380px;
-    font-size: 32px;
-    padding: 12px;
-    margin-bottom: 10px;
-    text-align: right;
-    border: 2px solid #999;
-    border-radius: 8px;
-    background-color: #fff;
-}
-#buttons {
-    display: inline-block;
-    margin-bottom: 20px;
-}
-.btn {
-    width: 70px;
-    height: 70px;
-    font-size: 24px;
-    margin: 5px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    background-color: #e2e6ea;
-    transition: 0.2s;
-}
-.btn:hover { background-color: #cdd2d9; }
-.btn-clear { background-color: #ff3b30; color: white; }
-select, .convert-btn {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #999;
-    cursor: pointer;
-}
-.convert-btn {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    transition: 0.2s;
-}
-.convert-btn:hover { background-color: #0056b3; }
-#result {
-    margin-top: 20px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #222;
-    white-space: pre-line;
-}
-</style>
+<title>المحول الذكي + أخبار البورصة</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>المحوّل الذكي الكامل</h1>
+<button onclick="toggleTheme()" class="theme-btn">🌙 / ☀️</button>
 
-<input type="text" id="display" readonly placeholder="0">
+<header>
+  <h1>🔄 المحول الذكي</h1>
+  <nav>
+    <a href="#converter">المحول</a> |
+    <a href="#news">أخبار البورصة</a>
+  </nav>
+</header>
 
-<div id="buttons">
-    <br>
-    <button class="btn" onclick="press('7')">7</button>
-    <button class="btn" onclick="press('8')">8</button>
-    <button class="btn" onclick="press('9')">9</button>
-    <br>
-    <button class="btn" onclick="press('4')">4</button>
-    <button class="btn" onclick="press('5')">5</button>
-    <button class="btn" onclick="press('6')">6</button>
-    <br>
-    <button class="btn" onclick="press('1')">1</button>
-    <button class="btn" onclick="press('2')">2</button>
-    <button class="btn" onclick="press('3')">3</button>
-    <br>
-    <button class="btn" onclick="press('0')">0</button>
-    <button class="btn" onclick="press('.')">.</button>
-    <button class="btn btn-clear" onclick="clearDisplay()">C</button>
-</div>
+<section id="converter">
+  <div class="category">
+    <button onclick="setCategory('currency',this)">💵 عملات</button>
+    <button onclick="setCategory('temp',this)">🌡️ حرارة</button>
+    <button onclick="setCategory('length',this)">📏 طول</button>
+    <button onclick="setCategory('weight',this)">⚖️ وزن</button>
+    <button onclick="setCategory('time',this)">⏰ وقت</button>
+    <button onclick="setCategory('data',this)">💾 بيانات</button>
+    <button onclick="setCategory('area',this)">🗺️ مساحة</button>
+  </div>
 
-<div id="conversions">
-    <select id="type">
-        <option value="length">الطول 📏</option>
-        <option value="weight">الوزن ⚖️</option>
-        <option value="area">المساحة 🌐</option>
-        <option value="temperature">الحرارة 🌡️</option>
-        <option value="time">الوقت ⏱️</option>
-        <option value="speed">السرعة 🏎️</option>
-        <option value="volume">الحجم 🥛</option>
-        <option value="energy">الطاقة 🔋</option>
-        <option value="pressure">الضغط 🧭</option>
-    </select>
-    <select id="unitFrom"></select>
-    <select id="unitTo"></select>
-    <button class="convert-btn" onclick="doConvert()">حوّل</button>
-</div>
+  <input type="number" id="value" placeholder="اكتب الرقم">
+  <br>
+  <select id="from"></select>
+  <select id="to"></select>
+  <br>
+  <button class="convert" onclick="convert()">تحويل</button>
+  <div id="result"></div>
+</section>
 
-<p id="result"></p>
+<section id="news" class="news-widget">
+  <h2>📊 أسعار الدولار وأخبار البورصة</h2>
+  <div class="currency" id="currency-section"></div>
+  <div class="news" id="news-section"></div>
+  <p class="update" id="last-update"></p>
+</section>
+
+<script src="converter.js"></script>
+<script src="news.js"></script>
 
 <script>
-const units = {
-    length: ['متر','كيلومتر','سنتيمتر','ميل'],
-    weight: ['غرام','كيلوجرام','طن','رطل'],
-    area: ['متر²','هكتار','كم²','فدان'],
-    temperature: ['°C','K','°F'],
-    time: ['ثانية','دقيقة','ساعة','يوم'],
-    speed: ['كم/س','م/ث','ميل/س'],
-    volume: ['لتر','م³','جالون'],
-    energy: ['جول','سعر حراري'],
-    pressure: ['باسكال','كيلوباسكال','رطل/بوصة²']
-};
-
-const conversionFactors = {
-    length: {'متر':1,'كيلومتر':1000,'سنتيمتر':0.01,'ميل':1609.34},
-    weight: {'غرام':1,'كيلوجرام':1000,'طن':1000000,'رطل':453.592},
-    area: {'متر²':1,'هكتار':10000,'كم²':1000000,'فدان':4200},
-    temperature: {},
-    time: {'ثانية':1,'دقيقة':60,'ساعة':3600,'يوم':86400},
-    speed: {'كم/س':1,'م/ث':1/3.6,'ميل/س':1.60934},
-    volume: {'لتر':1,'م³':1000,'جالون':3.78541},
-    energy: {'جول':1,'سعر حراري':4184},
-    pressure: {'باسكال':1,'كيلوباسكال':1000,'رطل/بوصة²':6894.76}
-};
-
-const tempConvert=(value,from,to)=>{
-    if(from==='°C'&&to==='K')return value+273.15;
-    if(from==='K'&&to==='°C')return value-273.15;
-    if(from==='°C'&&to==='°F')return value*9/5+32;
-    if(from==='°F'&&to==='°C')return (value-32)*5/9;
-    if(from==='K'&&to==='°F')return (value-273.15)*9/5+32;
-    if(from==='°F'&&to==='K')return (value-32)*5/9+273.15;
-    return value;
-}
-
-const typeSelect=document.getElementById('type');
-const unitFrom=document.getElementById('unitFrom');
-const unitTo=document.getElementById('unitTo');
-
-function updateUnits(){
-    const type=typeSelect.value;
-    unitFrom.innerHTML='';
-    unitTo.innerHTML='';
-    units[type].forEach(u=>{
-        unitFrom.innerHTML+=`<option value="${u}">${u}</option>`;
-        unitTo.innerHTML+=`<option value="${u}">${u}</option>`;
-    });
-}
-typeSelect.addEventListener('change',updateUnits);
-updateUnits();
-
-function press(num){
-    const display=document.getElementById('display');
-    if(display.value==="0"&&num!=="." ) display.value=num;
-    else display.value+=num;
-}
-function clearDisplay(){
-    document.getElementById('display').value="";
-    document.getElementById('result').innerText="";
-}
-
-function doConvert(){
-    const type=typeSelect.value;
-    const from=unitFrom.value;
-    const to=unitTo.value;
-    const val=parseFloat(document.getElementById('display').value);
-    if(isNaN(val)){ document.getElementById('result').innerText="الرجاء إدخال رقم صحيح!"; return;}
-    let result;
-    if(type==='temperature') result=tempConvert(val,from,to);
-    else result=val*conversionFactors[type][from]/conversionFactors[type][to];
-    document.getElementById('result').innerText=`${val} ${from} = ${result} ${to}`;
+function toggleTheme(){
+  document.body.classList.toggle("light");
 }
 </script>
 
