@@ -1,55 +1,82 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدخال أرقام فقط</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        input, button {
-            font-size: 18px;
-            padding: 10px;
-            margin: 5px 0;
-            width: 100%;
-            max-width: 300px;
-        }
-        button {
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #result {
-            margin-top: 15px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة أرقام رقمية</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+        background-color: #f5f5f5;
+    }
+    #display {
+        width: 100%;
+        max-width: 300px;
+        font-size: 32px;
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: right;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+    .btn {
+        width: 70px;
+        height: 70px;
+        font-size: 24px;
+        margin: 5px;
+        cursor: pointer;
+        background-color: #d4d4d2;
+        border: none;
+        border-radius: 5px;
+    }
+    .btn-clear {
+        background-color: #ff3b30;
+        color: white;
+    }
+    #buttons {
+        display: inline-block;
+    }
+</style>
 </head>
 <body>
-    <h2>إدخال أرقام فقط</h2>
-    <label for="numberInput">أدخل الرقم:</label><br>
-    <input type="number" id="numberInput" placeholder="أدخل الرقم هنا"><br>
-    <button onclick="calculate()">احسب ×2</button>
-    <p id="result"></p>
+<h2>لوحة أرقام رقمية</h2>
+<input type="text" id="display" readonly placeholder="0">
 
-    <script>
-        function calculate() {
-            const input = document.getElementById('numberInput').value;
-            const num = parseFloat(input);
-            if (!isNaN(num)) {
-                const result = num * 2; // مثال: نضرب الرقم في 2
-                document.getElementById('result').innerText = `النتيجة: ${result}`;
-            } else {
-                document.getElementById('result').innerText = "الرجاء إدخال رقم صحيح!";
-            }
+<div id="buttons">
+    <br>
+    <button class="btn" onclick="press('7')">7</button>
+    <button class="btn" onclick="press('8')">8</button>
+    <button class="btn" onclick="press('9')">9</button>
+    <br>
+    <button class="btn" onclick="press('4')">4</button>
+    <button class="btn" onclick="press('5')">5</button>
+    <button class="btn" onclick="press('6')">6</button>
+    <br>
+    <button class="btn" onclick="press('1')">1</button>
+    <button class="btn" onclick="press('2')">2</button>
+    <button class="btn" onclick="press('3')">3</button>
+    <br>
+    <button class="btn" onclick="press('0')">0</button>
+    <button class="btn" onclick="press('.')">.</button>
+    <button class="btn btn-clear" onclick="clearDisplay()">C</button>
+</div>
+
+<script>
+    function press(num) {
+        const display = document.getElementById('display');
+        if(display.value === "0" && num !== ".") {
+            display.value = num;
+        } else {
+            display.value += num;
         }
-    </script>
+    }
+
+    function clearDisplay() {
+        document.getElementById('display').value = "";
+    }
+</script>
 </body>
 </html>
