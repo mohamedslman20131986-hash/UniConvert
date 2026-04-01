@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة أرقام رقمية</title>
+<title>المحوّل الذكي</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -23,9 +23,9 @@
         background-color: #fff;
     }
     .btn {
-        width: 70px;
-        height: 70px;
-        font-size: 24px;
+        width: 60px;
+        height: 60px;
+        font-size: 22px;
         margin: 5px;
         cursor: pointer;
         background-color: #d4d4d2;
@@ -39,12 +39,34 @@
     #buttons {
         display: inline-block;
     }
+    .convert-btn {
+        display: block;
+        margin: 10px auto;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .convert-btn:hover {
+        background-color: #45a049;
+    }
+    #result {
+        margin-top: 15px;
+        font-size: 20px;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
-<h2>لوحة أرقام رقمية</h2>
+<h2>المحوّل الذكي</h2>
+
+<!-- خانة الرقم -->
 <input type="text" id="display" readonly placeholder="0">
 
+<!-- لوحة الأرقام -->
 <div id="buttons">
     <br>
     <button class="btn" onclick="press('7')">7</button>
@@ -64,6 +86,15 @@
     <button class="btn btn-clear" onclick="clearDisplay()">C</button>
 </div>
 
+<!-- أزرار التحويل -->
+<button class="convert-btn" onclick="convert('length')">تحويل الطول</button>
+<button class="convert-btn" onclick="convert('weight')">تحويل الوزن</button>
+<button class="convert-btn" onclick="convert('area')">تحويل المساحة</button>
+<button class="convert-btn" onclick="convert('temperature')">تحويل الحرارة</button>
+
+<!-- عرض النتيجة -->
+<p id="result"></p>
+
 <script>
     function press(num) {
         const display = document.getElementById('display');
@@ -76,6 +107,38 @@
 
     function clearDisplay() {
         document.getElementById('display').value = "";
+        document.getElementById('result').innerText = "";
+    }
+
+    // دوال التحويل الأساسية
+    function convert(type) {
+        const val = parseFloat(document.getElementById('display').value);
+        if(isNaN(val)) {
+            document.getElementById('result').innerText = "الرجاء إدخال رقم صحيح!";
+            return;
+        }
+
+        let output = "";
+        switch(type) {
+            case 'length':
+                // مثال: متر → كيلومتر
+                output = `${val} متر = ${val/1000} كيلومتر`;
+                break;
+            case 'weight':
+                // مثال: غرام → كيلوجرام
+                output = `${val} غرام = ${val/1000} كيلوجرام`;
+                break;
+            case 'area':
+                // مثال: هكتار → كم²
+                output = `${val} هكتار = ${val/100} كم²`;
+                break;
+            case 'temperature':
+                // مثال: سيلسي → كلفن
+                output = `${val}°C = ${val+273.15} K`;
+                break;
+        }
+
+        document.getElementById('result').innerText = output;
     }
 </script>
 </body>
