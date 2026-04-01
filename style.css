@@ -6,7 +6,6 @@ body {
   padding: 20px;
 }
 
-/* الوضع النهاري */
 body.light {
   background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
   color: #111;
@@ -69,7 +68,6 @@ input[type="number"], select {
   color:#00ffcc;
 }
 
-/* الأخبار */
 .news-widget {
   margin:20px auto;
   padding:20px;
@@ -83,7 +81,6 @@ body.light .news-widget {
   background: linear-gradient(135deg,#ffffff,#e0e0e0);
 }
 
-/* زر الوضع */
 .theme-btn {
   position: fixed;
   top: 10px;
